@@ -86,28 +86,42 @@ function GalleryContent() {
 
             {/* ---- 分类筛选 ---- */}
             {categories.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-8">
+                <div className="flex flex-wrap gap-3 mb-12 justify-center">
                     <button
                         onClick={() => handleCategoryChange(null)}
-                        className={`rounded-full px-4 py-1.5 text-sm transition-all ${!activeCategory
-                            ? 'bg-[var(--color-accent)] text-[var(--color-bg)]'
-                            : 'bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]'
+                        className={`relative rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${!activeCategory
+                            ? 'text-white shadow-[0_0_15px_var(--color-accent-dim)]'
+                            : 'text-[var(--color-text-secondary)] hover:text-white'
                             }`}
                     >
-                        全部
+                        {/* Active Background */}
+                        <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-opacity duration-300 ${!activeCategory ? 'opacity-100' : 'opacity-0'}`} />
+                        {/* Inactive Background */}
+                        <div className={`absolute inset-0 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-opacity duration-300 ${!activeCategory ? 'opacity-0' : 'opacity-100 group-hover:border-[var(--color-accent)]'}`} />
+
+                        <span className="relative z-10">全部</span>
                     </button>
-                    {categories.map((cat) => (
-                        <button
-                            key={cat.id}
-                            onClick={() => handleCategoryChange(cat.id)}
-                            className={`rounded-full px-4 py-1.5 text-sm transition-all ${activeCategory === cat.id
-                                ? 'bg-[var(--color-accent)] text-[var(--color-bg)]'
-                                : 'bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]'
-                                }`}
-                        >
-                            {cat.name}
-                        </button>
-                    ))}
+
+                    {categories.map((cat) => {
+                        const isActive = activeCategory === cat.id
+                        return (
+                            <button
+                                key={cat.id}
+                                onClick={() => handleCategoryChange(cat.id)}
+                                className={`relative rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${isActive
+                                    ? 'text-white shadow-[0_0_15px_var(--color-accent-dim)]'
+                                    : 'text-[var(--color-text-secondary)] hover:text-white'
+                                    }`}
+                            >
+                                {/* Active Background */}
+                                <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
+                                {/* Inactive Background */}
+                                <div className={`absolute inset-0 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-opacity duration-300 ${isActive ? 'opacity-0' : 'opacity-100'}`} />
+
+                                <span className="relative z-10">{cat.name}</span>
+                            </button>
+                        )
+                    })}
                 </div>
             )}
 
