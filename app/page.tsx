@@ -27,10 +27,10 @@ export default async function HomePage() {
         </div>
 
         <h1 className="relative z-10 font-[family-name:var(--font-display)] text-6xl md:text-8xl leading-none tracking-tight animate-fade-in">
-          <span className="bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-b from-white via-blue-50 to-white/60 bg-clip-text text-transparent">
             时光
           </span>
-          <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-amber-300 bg-clip-text text-transparent">
             画廊
           </span>
         </h1>
