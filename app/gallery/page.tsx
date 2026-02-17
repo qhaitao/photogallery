@@ -81,44 +81,79 @@ function GalleryContent() {
 
     return (
         <div className="mx-auto max-w-7xl px-6 py-8">
-            {/* ---- 标题 ---- */}
             {/* ---- 标题已被移除 ---- */}
 
             {/* ---- 分类筛选 ---- */}
             {categories.length > 0 && (
                 <div className="flex flex-wrap gap-3 mb-12 justify-center">
+                    {/* ---- "全部" 按钮 ---- */}
                     <button
                         onClick={() => handleCategoryChange(null)}
-                        className={`group relative rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${!activeCategory
-                            ? 'text-white shadow-[0_0_15px_var(--color-accent-dim)]'
-                            : 'text-[var(--color-text-secondary)] hover:text-white'
+                        className={`group relative overflow-hidden rounded-full px-8 py-2.5 text-sm font-medium transition-all duration-500 ${!activeCategory
+                            ? 'shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] scale-105'
+                            : 'text-[var(--color-text-secondary)] hover:scale-105 hover:text-white'
                             }`}
                     >
-                        {/* Active/Hover Background - Gradients */}
-                        <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-opacity duration-300 ${!activeCategory ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
-                        {/* Inactive Background - Glass/Dark */}
-                        <div className={`absolute inset-0 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-opacity duration-300 ${!activeCategory ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'}`} />
+                        {/* Active: 纯白高亮 */}
+                        <div className={`absolute inset-0 rounded-full bg-white transition-opacity duration-500 ${!activeCategory ? 'opacity-100' : 'opacity-0'}`} />
 
-                        <span className="relative z-10">全部</span>
+                        {/* Hover: 全息旋转光晕 (仅非激活态) */}
+                        {activeCategory !== null && (
+                            <>
+                                <div
+                                    className="absolute -inset-[100%] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
+                                    style={{
+                                        backgroundImage: 'conic-gradient(from 90deg at 50% 50%, #E2CBFF 0%, #393BB2 50%, #E2CBFF 100%)',
+                                        animation: 'holo-spin 4s linear infinite',
+                                    }}
+                                />
+                                <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            </>
+                        )}
+
+                        {/* Default: 磨砂玻璃 */}
+                        <div className={`absolute inset-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 ${!activeCategory ? 'opacity-0' : 'opacity-100 group-hover:bg-white/10 group-hover:border-white/30'}`} />
+
+                        <span className={`relative z-10 transition-colors duration-300 ${!activeCategory ? 'text-black font-bold' : ''}`}>
+                            全部
+                        </span>
                     </button>
 
+                    {/* ---- 分类按钮 ---- */}
                     {categories.map((cat) => {
                         const isActive = activeCategory === cat.id
                         return (
                             <button
                                 key={cat.id}
                                 onClick={() => handleCategoryChange(cat.id)}
-                                className={`group relative rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${isActive
-                                    ? 'text-white shadow-[0_0_15px_var(--color-accent-dim)]'
-                                    : 'text-[var(--color-text-secondary)] hover:text-white'
+                                className={`group relative overflow-hidden rounded-full px-8 py-2.5 text-sm font-medium transition-all duration-500 ${isActive
+                                    ? 'shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] scale-105'
+                                    : 'text-[var(--color-text-secondary)] hover:scale-105 hover:text-white'
                                     }`}
                             >
-                                {/* Active/Hover Background */}
-                                <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
-                                {/* Inactive Background */}
-                                <div className={`absolute inset-0 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-opacity duration-300 ${isActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'}`} />
+                                {/* Active: 纯白高亮 */}
+                                <div className={`absolute inset-0 rounded-full bg-white transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
 
-                                <span className="relative z-10">{cat.name}</span>
+                                {/* Hover: 全息旋转光晕 (仅非激活态) */}
+                                {!isActive && (
+                                    <>
+                                        <div
+                                            className="absolute -inset-[100%] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
+                                            style={{
+                                                backgroundImage: 'conic-gradient(from 90deg at 50% 50%, #E2CBFF 0%, #393BB2 50%, #E2CBFF 100%)',
+                                                animation: 'holo-spin 4s linear infinite',
+                                            }}
+                                        />
+                                        <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    </>
+                                )}
+
+                                {/* Default: 磨砂玻璃 */}
+                                <div className={`absolute inset-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 ${isActive ? 'opacity-0' : 'opacity-100 group-hover:bg-white/10 group-hover:border-white/30'}`} />
+
+                                <span className={`relative z-10 transition-colors duration-300 ${isActive ? 'text-black font-bold' : ''}`}>
+                                    {cat.name}
+                                </span>
                             </button>
                         )
                     })}

@@ -17,7 +17,7 @@ export default async function HomePage() {
     <div className="min-h-screen">
       {/* ============ Hero Section ============ */}
       <section className="relative flex h-[90vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
-        {/* ---- Mesh Gradients Background (Enriched) ---- */}
+        {/* ---- Mesh Gradients Background ---- */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -left-[10%] -top-[10%] h-[700px] w-[700px] rounded-full bg-indigo-600/40 blur-[120px] mix-blend-screen animate-pulse" />
           <div className="absolute -right-[10%] top-[10%] h-[600px] w-[600px] rounded-full bg-fuchsia-600/40 blur-[120px] mix-blend-screen animate-pulse delay-1000" />
@@ -26,15 +26,25 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,var(--color-bg)_100%)]" />
         </div>
 
+        {/* ---- 标题: 用 inline style 实现多色渐变 (Tailwind 只支持一个 via) ---- */}
         <h1 className="relative z-10 font-[family-name:var(--font-display)] font-bold text-6xl md:text-8xl leading-none tracking-tight animate-fade-in">
-          <span className="bg-gradient-to-b from-white via-cyan-300 to-white/70 bg-clip-text text-transparent">
+          <span
+            className="text-shimmer bg-clip-text text-transparent"
+            style={{ backgroundImage: 'linear-gradient(90deg, #e0f2fe, #67e8f9, #e0f2fe)' }}
+          >
             时光
           </span>
-          <span className="bg-gradient-to-r from-cyan-500 via-violet-500 via-fuchsia-500 to-amber-400 bg-clip-text text-transparent">
+          <span
+            className="text-shimmer bg-clip-text text-transparent"
+            style={{ backgroundImage: 'linear-gradient(90deg, #22d3ee, #8b5cf6, #d946ef, #f59e0b, #22d3ee)' }}
+          >
             画廊
           </span>
         </h1>
-        <p className="mt-6 font-[family-name:var(--font-display)] font-semibold text-2xl md:text-3xl italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 relative z-10 animate-fade-in delay-100">
+        <p
+          className="mt-6 font-[family-name:var(--font-display)] font-semibold text-2xl md:text-3xl italic text-shimmer bg-clip-text text-transparent relative z-10 animate-fade-in delay-100"
+          style={{ backgroundImage: 'linear-gradient(90deg, #22d3ee, #a78bfa, #e879f9, #22d3ee)' }}
+        >
           A Thousand Faces, A Million Dreams
         </p>
         <p className="mt-8 max-w-lg text-[var(--color-text-secondary)] text-sm md:text-base tracking-wide uppercase relative z-10 animate-fade-in delay-200">
