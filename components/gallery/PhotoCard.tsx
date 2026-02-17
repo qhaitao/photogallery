@@ -34,7 +34,7 @@ export function PhotoCard({ photo, onClick, priority = false }: PhotoCardProps) 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="group relative cursor-pointer overflow-hidden rounded-lg bg-[var(--color-bg-card)]"
+            className="group relative cursor-pointer overflow-hidden rounded-lg bg-[var(--color-bg-card)] transition-all duration-500 hover:shadow-[0_0_30px_-5px_var(--color-accent-dim)] ring-1 ring-white/5 hover:ring-[var(--color-accent)]/30"
             onClick={onClick}
         >
             <div className="relative aspect-[3/4]">
