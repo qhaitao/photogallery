@@ -26,11 +26,11 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,var(--color-bg)_100%)]" />
         </div>
 
-        {/* ---- 标题: 用 inline style 实现多色渐变 (Tailwind 只支持一个 via) ---- */}
+        {/* ---- 标题: inline style 多色渐变 + shimmer 动画 ---- */}
         <h1 className="relative z-10 font-[family-name:var(--font-display)] font-bold text-6xl md:text-8xl leading-none tracking-tight animate-fade-in">
           <span
             className="text-shimmer bg-clip-text text-transparent"
-            style={{ backgroundImage: 'linear-gradient(90deg, #e0f2fe, #67e8f9, #e0f2fe)' }}
+            style={{ backgroundImage: 'linear-gradient(90deg, #67e8f9, #a78bfa, #f472b6, #67e8f9)' }}
           >
             时光
           </span>

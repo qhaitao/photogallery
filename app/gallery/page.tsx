@@ -10,6 +10,30 @@ import { PhotoCard } from '@/components/gallery/PhotoCard'
 import { Lightbox } from '@/components/gallery/Lightbox'
 import type { Photo, Category } from '@/lib/types'
 
+// ---- 按钮渐变色板 (每个按钮不同色相) ----
+const BUTTON_GRADIENTS = [
+    'linear-gradient(90deg, #67e8f9, #a78bfa, #67e8f9)',
+    'linear-gradient(90deg, #f472b6, #a78bfa, #f472b6)',
+    'linear-gradient(90deg, #34d399, #22d3ee, #34d399)',
+    'linear-gradient(90deg, #fbbf24, #f472b6, #fbbf24)',
+    'linear-gradient(90deg, #a78bfa, #f472b6, #a78bfa)',
+    'linear-gradient(90deg, #22d3ee, #34d399, #22d3ee)',
+    'linear-gradient(90deg, #f97316, #fbbf24, #f97316)',
+    'linear-gradient(90deg, #e879f9, #8b5cf6, #e879f9)',
+]
+
+// ---- 全息悬浮色板 ----
+const HOVER_CONICS = [
+    'conic-gradient(from 0deg at 50% 50%, #67e8f9, #a78bfa, #f472b6, #67e8f9)',
+    'conic-gradient(from 0deg at 50% 50%, #f472b6, #fbbf24, #34d399, #f472b6)',
+    'conic-gradient(from 0deg at 50% 50%, #34d399, #22d3ee, #a78bfa, #34d399)',
+    'conic-gradient(from 0deg at 50% 50%, #fbbf24, #f97316, #e879f9, #fbbf24)',
+    'conic-gradient(from 0deg at 50% 50%, #a78bfa, #22d3ee, #f472b6, #a78bfa)',
+    'conic-gradient(from 0deg at 50% 50%, #22d3ee, #8b5cf6, #fbbf24, #22d3ee)',
+    'conic-gradient(from 0deg at 50% 50%, #f97316, #e879f9, #22d3ee, #f97316)',
+    'conic-gradient(from 0deg at 50% 50%, #e879f9, #67e8f9, #fbbf24, #e879f9)',
+]
+
 function GalleryContent() {
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -87,76 +111,23 @@ function GalleryContent() {
             {categories.length > 0 && (
                 <div className="flex flex-wrap gap-3 mb-12 justify-center">
                     {/* ---- "全部" 按钮 ---- */}
-                    <button
+                    <FilterButton
+                        isActive={!activeCategory}
                         onClick={() => handleCategoryChange(null)}
-                        className={`group relative overflow-hidden rounded-full px-8 py-2.5 text-sm font-medium transition-all duration-500 ${!activeCategory
-                            ? 'shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] scale-105'
-                            : 'text-[var(--color-text-secondary)] hover:scale-105 hover:text-white'
-                            }`}
-                    >
-                        {/* Active: 纯白高亮 */}
-                        <div className={`absolute inset-0 rounded-full bg-white transition-opacity duration-500 ${!activeCategory ? 'opacity-100' : 'opacity-0'}`} />
-
-                        {/* Hover: 全息旋转光晕 (仅非激活态) */}
-                        {activeCategory !== null && (
-                            <>
-                                <div
-                                    className="absolute -inset-[100%] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
-                                    style={{
-                                        backgroundImage: 'conic-gradient(from 90deg at 50% 50%, #E2CBFF 0%, #393BB2 50%, #E2CBFF 100%)',
-                                        animation: 'holo-spin 4s linear infinite',
-                                    }}
-                                />
-                                <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            </>
-                        )}
-
-                        {/* Default: 磨砂玻璃 */}
-                        <div className={`absolute inset-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 ${!activeCategory ? 'opacity-0' : 'opacity-100 group-hover:bg-white/10 group-hover:border-white/30'}`} />
-
-                        <span className={`relative z-10 transition-colors duration-300 ${!activeCategory ? 'text-black font-bold' : ''}`}>
-                            全部
-                        </span>
-                    </button>
+                        label="全部"
+                        gradientIndex={0}
+                    />
 
                     {/* ---- 分类按钮 ---- */}
-                    {categories.map((cat) => {
-                        const isActive = activeCategory === cat.id
-                        return (
-                            <button
-                                key={cat.id}
-                                onClick={() => handleCategoryChange(cat.id)}
-                                className={`group relative overflow-hidden rounded-full px-8 py-2.5 text-sm font-medium transition-all duration-500 ${isActive
-                                    ? 'shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] scale-105'
-                                    : 'text-[var(--color-text-secondary)] hover:scale-105 hover:text-white'
-                                    }`}
-                            >
-                                {/* Active: 纯白高亮 */}
-                                <div className={`absolute inset-0 rounded-full bg-white transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
-
-                                {/* Hover: 全息旋转光晕 (仅非激活态) */}
-                                {!isActive && (
-                                    <>
-                                        <div
-                                            className="absolute -inset-[100%] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
-                                            style={{
-                                                backgroundImage: 'conic-gradient(from 90deg at 50% 50%, #E2CBFF 0%, #393BB2 50%, #E2CBFF 100%)',
-                                                animation: 'holo-spin 4s linear infinite',
-                                            }}
-                                        />
-                                        <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                    </>
-                                )}
-
-                                {/* Default: 磨砂玻璃 */}
-                                <div className={`absolute inset-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 ${isActive ? 'opacity-0' : 'opacity-100 group-hover:bg-white/10 group-hover:border-white/30'}`} />
-
-                                <span className={`relative z-10 transition-colors duration-300 ${isActive ? 'text-black font-bold' : ''}`}>
-                                    {cat.name}
-                                </span>
-                            </button>
-                        )
-                    })}
+                    {categories.map((cat, i) => (
+                        <FilterButton
+                            key={cat.id}
+                            isActive={activeCategory === cat.id}
+                            onClick={() => handleCategoryChange(cat.id)}
+                            label={cat.name}
+                            gradientIndex={(i + 1) % BUTTON_GRADIENTS.length}
+                        />
+                    ))}
                 </div>
             )}
 
@@ -195,6 +166,73 @@ function GalleryContent() {
                 onNavigate={setSelectedPhoto}
             />
         </div>
+    )
+}
+
+// ============================================
+// FilterButton — 独立组件，三态按钮
+// Active: 渐变背景 + 白色文字
+// Hover: 全息旋转光晕 + 渐变文字
+// Default: 磨砂玻璃 + 渐变文字
+// ============================================
+function FilterButton({
+    isActive,
+    onClick,
+    label,
+    gradientIndex,
+}: {
+    isActive: boolean
+    onClick: () => void
+    label: string
+    gradientIndex: number
+}) {
+    const textGradient = BUTTON_GRADIENTS[gradientIndex % BUTTON_GRADIENTS.length]
+    const holoGradient = HOVER_CONICS[gradientIndex % HOVER_CONICS.length]
+
+    return (
+        <button
+            onClick={onClick}
+            className={`group relative overflow-hidden rounded-full px-8 py-2.5 text-sm font-semibold transition-all duration-500 ${isActive
+                ? 'shadow-[0_0_25px_-5px_rgba(168,139,250,0.6)] scale-105'
+                : 'hover:scale-105'
+                }`}
+        >
+            {/* ---- Active: 渐变背景 ---- */}
+            <div
+                className={`absolute inset-0 rounded-full transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+                style={{ backgroundImage: textGradient, backgroundSize: '200% auto' }}
+            />
+
+            {/* ---- Hover: 全息旋转光晕 (仅非激活态) ---- */}
+            {!isActive && (
+                <>
+                    <div
+                        className="absolute -inset-[100%] opacity-0 blur-lg transition-opacity duration-700 group-hover:opacity-80"
+                        style={{
+                            backgroundImage: holoGradient,
+                            animation: 'holo-spin 3s linear infinite',
+                        }}
+                    />
+                    <div className="absolute inset-[1px] rounded-full bg-[var(--color-bg-card)] transition-all duration-500 group-hover:bg-[var(--color-bg-elevated)]" />
+                </>
+            )}
+
+            {/* ---- Default: 磨砂玻璃边框 (非激活 + 非悬浮) ---- */}
+            {!isActive && (
+                <div className="absolute inset-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 group-hover:border-transparent group-hover:bg-transparent" />
+            )}
+
+            {/* ---- 文字: 渐变色 ---- */}
+            <span
+                className={`relative z-10 text-shimmer bg-clip-text transition-all duration-300 ${isActive
+                    ? 'text-white font-bold'
+                    : 'text-transparent'
+                    }`}
+                style={!isActive ? { backgroundImage: textGradient } : undefined}
+            >
+                {label}
+            </span>
+        </button>
     )
 }
 
