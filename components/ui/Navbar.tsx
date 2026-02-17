@@ -43,19 +43,23 @@ export function Navbar() {
                 </Link>
 
                 {/* ---- Nav Links ---- */}
-                <div className="flex items-center gap-6">
-                    {NAV_LINKS.map(({ href, label }) => (
-                        <Link
-                            key={href}
-                            href={href}
-                            className={`text-sm transition-colors hover:text-[var(--color-accent)] ${pathname === href
-                                    ? 'text-[var(--color-accent)]'
+                <div className="flex items-center gap-8">
+                    {NAV_LINKS.map(({ href, label }) => {
+                        const isActive = pathname === href
+                        return (
+                            <Link
+                                key={href}
+                                href={href}
+                                className={`relative text-sm font-medium tracking-wide transition-all duration-300 hover:text-[var(--color-accent)] ${isActive
+                                    ? 'text-[var(--color-accent)] [text-shadow:0_0_10px_var(--color-accent-dim)]'
                                     : 'text-[var(--color-text-secondary)]'
-                                }`}
-                        >
-                            {label}
-                        </Link>
-                    ))}
+                                    } group`}
+                            >
+                                {label}
+                                <span className={`absolute -bottom-1 left-1/2 h-[2px] -translate-x-1/2 bg-[var(--color-accent)] transition-all duration-300 ${isActive ? 'w-full shadow-[0_0_8px_var(--color-accent)]' : 'w-0 group-hover:w-full'}`} />
+                            </Link>
+                        )
+                    })}
 
                     {/* ---- Auth ---- */}
                     {user ? (
