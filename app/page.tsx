@@ -16,26 +16,35 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ============ Hero Section ============ */}
-      {/* ============ Hero Section ============ */}
       <section className="relative flex h-[90vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
-        {/* 背景渐变光晕 - 增强版 */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--color-accent-dim)_0%,_transparent_60%)] opacity-80" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_80%,var(--color-bg)_100%)]" />
+        {/* ---- Mesh Gradients Background ---- */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -left-[10%] -top-[20%] h-[600px] w-[600px] rounded-full bg-purple-600/20 blur-[120px] mix-blend-screen animate-pulse" />
+          <div className="absolute -right-[10%] top-[20%] h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[120px] mix-blend-screen animate-pulse delay-1000" />
+          <div className="absolute left-[20%] bottom-[-10%] h-[400px] w-[400px] rounded-full bg-pink-600/10 blur-[100px] mix-blend-screen animate-pulse delay-2000" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--color-bg)_100%)]" />
+        </div>
 
-        <h1 className="font-[family-name:var(--font-display)] text-6xl md:text-8xl leading-none tracking-tight relative z-10 animate-fade-in">
-          时光画廊
+        <h1 className="relative z-10 font-[family-name:var(--font-display)] text-6xl md:text-8xl leading-none tracking-tight animate-fade-in">
+          <span className="bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent">
+            时光
+          </span>
+          <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+            画廊
+          </span>
         </h1>
-        <p className="mt-4 font-[family-name:var(--font-display)] text-2xl md:text-3xl italic text-[var(--color-text-secondary)] relative z-10 animate-fade-in delay-100">
-          A Thousand Faces
+        <p className="mt-6 font-[family-name:var(--font-display)] text-2xl md:text-3xl italic text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/40 relative z-10 animate-fade-in delay-100">
+          A Thousand Faces, A Million Dreams
         </p>
-        <p className="mt-8 max-w-lg text-[var(--color-text-muted)] text-sm md:text-base tracking-wide uppercase relative z-10 animate-fade-in delay-200">
+        <p className="mt-8 max-w-lg text-[var(--color-text-secondary)] text-sm md:text-base tracking-wide uppercase relative z-10 animate-fade-in delay-200">
           每一张图片都是一次穿越<br />每一个场景都是一段未曾到达的人生
         </p>
         <Link
           href="/gallery"
-          className="mt-12 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-10 py-3 text-sm font-medium text-[var(--color-text-primary)] transition-all hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] hover:scale-105 active:scale-95 relative z-10 animate-fade-in delay-300"
+          className="group relative mt-12 overflow-hidden rounded-full px-10 py-3 text-sm font-medium text-white transition-all hover:scale-105 active:scale-95 z-10 animate-fade-in delay-300"
         >
-          EXPLORE GALLERY
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-80 transition-opacity group-hover:opacity-100" />
+          <span className="relative">EXPLORE GALLERY</span>
         </Link>
       </section>
 
