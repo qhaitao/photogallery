@@ -30,7 +30,7 @@ export default async function HomePage() {
         <h1 className="relative z-10 font-[family-name:var(--font-display)] font-bold text-6xl md:text-8xl leading-none tracking-tight animate-fade-in">
           <span
             className="text-shimmer bg-clip-text text-transparent"
-            style={{ backgroundImage: 'linear-gradient(90deg, #67e8f9, #a78bfa, #f472b6, #67e8f9)' }}
+            style={{ backgroundImage: 'linear-gradient(90deg, #f97316, #ec4899, #8b5cf6, #f97316)' }}
           >
             时光
           </span>
