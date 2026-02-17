@@ -5,6 +5,10 @@ import type { Metadata } from 'next'
 import { Inter, Playfair_Display, ZCOOL_QingKe_HuangYou } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/ui/Navbar'
+import { SiteFooter } from '@/components/ui/SiteFooter'
+import { AnalyticsTracker } from '@/components/AnalyticsTracker'
+import { Suspense } from 'react'
+import { LanguageProvider } from '@/lib/i18n'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -36,10 +40,6 @@ export const metadata: Metadata = {
   },
 }
 
-import { AnalyticsTracker } from '@/components/AnalyticsTracker'
-import { Suspense } from 'react'
-import { LanguageProvider } from '@/lib/i18n'
-
 export default function RootLayout({
   children,
 }: {
@@ -47,19 +47,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh" className={`${inter.variable} ${playfair.variable} ${zcool.variable}`}>
-      <body className="min-h-screen">
+      <body className="min-h-dvh overflow-x-hidden">
         <LanguageProvider>
           <Suspense fallback={null}>
             <AnalyticsTracker />
           </Suspense>
           <Navbar />
-          <main className="pt-16 min-h-[calc(100vh-80px)]">{children}</main>
-          <footer className="py-8 text-center text-xs text-[var(--color-text-muted)] opacity-50 hover:opacity-100 transition-opacity">
-            <p>© 2026 Time Gallery. All rights reserved.</p>
-            <div className="mt-2 space-x-4">
-              <a href="/stats" className="hover:text-[var(--color-accent)] transition-colors">Analytics</a>
-            </div>
-          </footer>
+          <main className="pt-16">{children}</main>
+          <SiteFooter />
         </LanguageProvider>
       </body>
     </html>
