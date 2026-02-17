@@ -17,12 +17,13 @@ export default async function HomePage() {
     <div className="min-h-screen">
       {/* ============ Hero Section ============ */}
       <section className="relative flex h-[90vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
-        {/* ---- Mesh Gradients Background ---- */}
+        {/* ---- Mesh Gradients Background (Enriched) ---- */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -left-[10%] -top-[10%] h-[700px] w-[700px] rounded-full bg-purple-600/40 blur-[100px] mix-blend-screen animate-pulse" />
-          <div className="absolute -right-[10%] top-[10%] h-[600px] w-[600px] rounded-full bg-blue-600/40 blur-[100px] mix-blend-screen animate-pulse delay-1000" />
-          <div className="absolute left-[20%] -bottom-[10%] h-[500px] w-[500px] rounded-full bg-pink-600/30 blur-[100px] mix-blend-screen animate-pulse delay-2000" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,var(--color-bg)_100%)]" />
+          <div className="absolute -left-[10%] -top-[10%] h-[700px] w-[700px] rounded-full bg-indigo-600/40 blur-[120px] mix-blend-screen animate-pulse" />
+          <div className="absolute -right-[10%] top-[10%] h-[600px] w-[600px] rounded-full bg-fuchsia-600/40 blur-[120px] mix-blend-screen animate-pulse delay-1000" />
+          <div className="absolute left-[20%] -bottom-[10%] h-[500px] w-[500px] rounded-full bg-violet-600/40 blur-[120px] mix-blend-screen animate-pulse delay-2000" />
+          <div className="absolute right-[20%] -bottom-[20%] h-[400px] w-[400px] rounded-full bg-cyan-600/30 blur-[100px] mix-blend-screen animate-pulse delay-3000" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,var(--color-bg)_100%)]" />
         </div>
 
         <h1 className="relative z-10 font-[family-name:var(--font-display)] text-6xl md:text-8xl leading-none tracking-tight animate-fade-in">
@@ -41,10 +42,10 @@ export default async function HomePage() {
         </p>
         <Link
           href="/gallery"
-          className="group relative mt-12 overflow-hidden rounded-full px-10 py-3 text-sm font-medium text-white transition-all hover:scale-105 active:scale-95 z-10 animate-fade-in delay-300"
+          className="group relative mt-12 overflow-hidden rounded-full px-12 py-3.5 text-base font-medium text-white transition-all hover:scale-105 active:scale-95 z-10 animate-fade-in delay-300"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-80 transition-opacity group-hover:opacity-100" />
-          <span className="relative">EXPLORE GALLERY</span>
+          <span className="relative">探索画廊</span>
         </Link>
       </section>
 
