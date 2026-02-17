@@ -89,15 +89,15 @@ function GalleryContent() {
                 <div className="flex flex-wrap gap-3 mb-12 justify-center">
                     <button
                         onClick={() => handleCategoryChange(null)}
-                        className={`relative rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${!activeCategory
+                        className={`group relative rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${!activeCategory
                             ? 'text-white shadow-[0_0_15px_var(--color-accent-dim)]'
                             : 'text-[var(--color-text-secondary)] hover:text-white'
                             }`}
                     >
-                        {/* Active Background */}
-                        <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-opacity duration-300 ${!activeCategory ? 'opacity-100' : 'opacity-0'}`} />
-                        {/* Inactive Background */}
-                        <div className={`absolute inset-0 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-opacity duration-300 ${!activeCategory ? 'opacity-0' : 'opacity-100 group-hover:border-[var(--color-accent)]'}`} />
+                        {/* Active/Hover Background - Gradients */}
+                        <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-opacity duration-300 ${!activeCategory ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
+                        {/* Inactive Background - Glass/Dark */}
+                        <div className={`absolute inset-0 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-opacity duration-300 ${!activeCategory ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'}`} />
 
                         <span className="relative z-10">全部</span>
                     </button>
@@ -108,15 +108,15 @@ function GalleryContent() {
                             <button
                                 key={cat.id}
                                 onClick={() => handleCategoryChange(cat.id)}
-                                className={`relative rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${isActive
+                                className={`group relative rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${isActive
                                     ? 'text-white shadow-[0_0_15px_var(--color-accent-dim)]'
                                     : 'text-[var(--color-text-secondary)] hover:text-white'
                                     }`}
                             >
-                                {/* Active Background */}
-                                <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
+                                {/* Active/Hover Background */}
+                                <div className={`absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
                                 {/* Inactive Background */}
-                                <div className={`absolute inset-0 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-opacity duration-300 ${isActive ? 'opacity-0' : 'opacity-100'}`} />
+                                <div className={`absolute inset-0 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-opacity duration-300 ${isActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'}`} />
 
                                 <span className="relative z-10">{cat.name}</span>
                             </button>
