@@ -82,10 +82,7 @@ function GalleryContent() {
     return (
         <div className="mx-auto max-w-7xl px-6 py-8">
             {/* ---- 标题 ---- */}
-            <h1 className="font-[family-name:var(--font-display)] text-3xl mb-2">画廊</h1>
-            <p className="text-[var(--color-text-muted)] text-sm mb-8">
-                {photos.length} 幅作品
-            </p>
+            {/* ---- 标题已被移除 ---- */}
 
             {/* ---- 分类筛选 ---- */}
             {categories.length > 0 && (
@@ -93,8 +90,8 @@ function GalleryContent() {
                     <button
                         onClick={() => handleCategoryChange(null)}
                         className={`rounded-full px-4 py-1.5 text-sm transition-all ${!activeCategory
-                                ? 'bg-[var(--color-accent)] text-[var(--color-bg)]'
-                                : 'bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]'
+                            ? 'bg-[var(--color-accent)] text-[var(--color-bg)]'
+                            : 'bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]'
                             }`}
                     >
                         全部
@@ -104,8 +101,8 @@ function GalleryContent() {
                             key={cat.id}
                             onClick={() => handleCategoryChange(cat.id)}
                             className={`rounded-full px-4 py-1.5 text-sm transition-all ${activeCategory === cat.id
-                                    ? 'bg-[var(--color-accent)] text-[var(--color-bg)]'
-                                    : 'bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]'
+                                ? 'bg-[var(--color-accent)] text-[var(--color-bg)]'
+                                : 'bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]'
                                 }`}
                         >
                             {cat.name}
