@@ -2,7 +2,7 @@
 // Root Layout — 暗色电影主题，全局字体 + Navbar
 // ============================================
 import type { Metadata } from 'next'
-import { Inter, Playfair_Display, Ma_Shan_Zheng } from 'next/font/google'
+import { Inter, Playfair_Display, ZCOOL_QingKe_HuangYou } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/ui/Navbar'
 
@@ -18,8 +18,8 @@ const playfair = Playfair_Display({
   display: 'swap',
 })
 
-// ---- 马善政书法体 — 用于首页标题 ----
-const maShanZheng = Ma_Shan_Zheng({
+// ---- 站酷庆科黄油体 — 创意无衬线标题字体 ----
+const zcool = ZCOOL_QingKe_HuangYou({
   weight: '400',
   subsets: ['latin'],
   variable: '--font-brush',
@@ -42,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh" className={`${inter.variable} ${playfair.variable} ${maShanZheng.variable}`}>
+    <html lang="zh" className={`${inter.variable} ${playfair.variable} ${zcool.variable}`}>
       <body className="min-h-screen">
         <Navbar />
         <main className="pt-16">{children}</main>
