@@ -19,10 +19,10 @@ export default async function HomePage() {
       <section className="relative flex h-[90vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
         {/* ---- Mesh Gradients Background ---- */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -left-[10%] -top-[20%] h-[600px] w-[600px] rounded-full bg-purple-600/20 blur-[120px] mix-blend-screen animate-pulse" />
-          <div className="absolute -right-[10%] top-[20%] h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[120px] mix-blend-screen animate-pulse delay-1000" />
-          <div className="absolute left-[20%] bottom-[-10%] h-[400px] w-[400px] rounded-full bg-pink-600/10 blur-[100px] mix-blend-screen animate-pulse delay-2000" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--color-bg)_100%)]" />
+          <div className="absolute -left-[10%] -top-[10%] h-[700px] w-[700px] rounded-full bg-purple-600/40 blur-[100px] mix-blend-screen animate-pulse" />
+          <div className="absolute -right-[10%] top-[10%] h-[600px] w-[600px] rounded-full bg-blue-600/40 blur-[100px] mix-blend-screen animate-pulse delay-1000" />
+          <div className="absolute left-[20%] -bottom-[10%] h-[500px] w-[500px] rounded-full bg-pink-600/30 blur-[100px] mix-blend-screen animate-pulse delay-2000" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,var(--color-bg)_100%)]" />
         </div>
 
         <h1 className="relative z-10 font-[family-name:var(--font-display)] text-6xl md:text-8xl leading-none tracking-tight animate-fade-in">
