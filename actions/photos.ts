@@ -82,6 +82,41 @@ export async function getCategories() {
     return data || []
 }
 
+// ---- 创建分类 ----
+export async function createCategory(name: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) throw new Error('未登录')
+
+    // 检查是否存在
+    const { data: existing } = await supabase
+        .from('categories')
+        .select('*')
+        .eq('name', name)
+        .single()
+
+    if (existing) return existing
+
+    // 获取最大 sort_order
+    const { data: maxOrder } = await supabase
+        .from('categories')
+        .select('sort_order')
+        .order('sort_order', { ascending: false })
+        .limit(1)
+        .single()
+
+    const nextOrder = (maxOrder?.sort_order || 0) + 10
+
+    const { data: newCategory, error } = await supabase
+        .from('categories')
+        .insert({ name, sort_order: nextOrder })
+        .select()
+        .single()
+
+    if (error) throw new Error(error.message)
+    return newCategory
+}
+
 // ---- 获取当前用户的图片 ----
 export async function getMyPhotos() {
     const supabase = await createClient()

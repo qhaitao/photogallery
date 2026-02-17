@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
-import { createUploadUrl, createPhoto, getCategories } from '@/actions/photos'
+import { createUploadUrl, createPhoto, getCategories, createCategory } from '@/actions/photos'
 import { MAX_FILE_SIZE, ALLOWED_TYPES } from '@/lib/constants'
 import type { Category } from '@/lib/types'
 
@@ -22,6 +22,8 @@ export default function UploadPage() {
     const [description, setDescription] = useState('')
     const [selectedCategories, setSelectedCategories] = useState<number[]>([])
     const [categories, setCategories] = useState<Category[]>([])
+    const [isAddingCategory, setIsAddingCategory] = useState(false)
+    const [newCategoryName, setNewCategoryName] = useState('')
     const [uploading, setUploading] = useState(false)
     const [progress, setProgress] = useState(0)
     const [error, setError] = useState('')
@@ -161,6 +163,23 @@ export default function UploadPage() {
         )
     }
 
+    const handleAddCategory = async () => {
+        if (!newCategoryName.trim()) return
+        try {
+            const newCat = await createCategory(newCategoryName.trim())
+            setCategories(prev => {
+                // 避免重复添加
+                if (prev.some(c => c.id === newCat.id)) return prev
+                return [...prev, newCat]
+            })
+            setSelectedCategories(prev => [...prev, newCat.id])
+            setNewCategoryName('')
+            setIsAddingCategory(false)
+        } catch (e) {
+            console.error('Failed to create category', e)
+        }
+    }
+
     if (!user) return null
 
     return (
@@ -257,7 +276,7 @@ export default function UploadPage() {
                     {/* ---- 分类选择 ---- */}
                     <div>
                         <label className="block text-xs text-[var(--color-text-muted)] mb-2">分类</label>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 items-center">
                             {categories.map((cat) => (
                                 <button
                                     key={cat.id}
@@ -271,6 +290,47 @@ export default function UploadPage() {
                                     {cat.name}
                                 </button>
                             ))}
+
+                            {/* 新建分类按钮/输入框 */}
+                            {isAddingCategory ? (
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        type="text"
+                                        autoFocus
+                                        value={newCategoryName}
+                                        onChange={e => setNewCategoryName(e.target.value)}
+                                        onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
+                                        className="w-24 rounded-full border border-[var(--color-accent)] bg-[var(--color-bg)] px-3 py-1 text-xs outline-none"
+                                        placeholder="新分类..."
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleAddCategory}
+                                        className="rounded-full bg-[var(--color-accent)] p-1 text-[var(--color-bg)] hover:opacity-90"
+                                    >
+                                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddingCategory(false)}
+                                        className="rounded-full bg-[var(--color-bg-elevated)] p-1 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
+                                    >
+                                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={() => setIsAddingCategory(true)}
+                                    className="rounded-full border border-dashed border-[var(--color-border)] px-3 py-1 text-xs text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
+                                >
+                                    + 新建
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
