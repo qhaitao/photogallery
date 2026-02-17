@@ -27,14 +27,14 @@ export default async function HomePage() {
         </div>
 
         <h1 className="relative z-10 font-[family-name:var(--font-display)] font-bold text-6xl md:text-8xl leading-none tracking-tight animate-fade-in">
-          <span className="bg-gradient-to-b from-white via-cyan-200 to-white/70 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-b from-white via-cyan-300 to-white/70 bg-clip-text text-transparent">
             时光
           </span>
-          <span className="bg-gradient-to-r from-cyan-400 via-violet-400 via-fuchsia-400 to-amber-300 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-cyan-500 via-violet-500 via-fuchsia-500 to-amber-400 bg-clip-text text-transparent">
             画廊
           </span>
         </h1>
-        <p className="mt-6 font-[family-name:var(--font-display)] font-semibold text-2xl md:text-3xl italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-violet-300 to-fuchsia-300 relative z-10 animate-fade-in delay-100">
+        <p className="mt-6 font-[family-name:var(--font-display)] font-semibold text-2xl md:text-3xl italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 relative z-10 animate-fade-in delay-100">
           A Thousand Faces, A Million Dreams
         </p>
         <p className="mt-8 max-w-lg text-[var(--color-text-secondary)] text-sm md:text-base tracking-wide uppercase relative z-10 animate-fade-in delay-200">
