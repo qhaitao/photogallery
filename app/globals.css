@@ -111,3 +111,48 @@ body {
     grid-template-columns: repeat(5, 1fr);
   }
 }
+
+/* ---- Skeleton Loading Shimmer ---- */
+@keyframes skeleton-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  position: relative;
+  background: var(--color-bg-elevated);
+  overflow: hidden;
+}
+
+.skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      transparent 25%,
+      rgba(255, 255, 255, 0.04) 50%,
+      transparent 75%);
+  animation: skeleton-wave 1.8s ease-in-out infinite;
+}
+
+/* ---- Page Entrance Animation ---- */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-in {
+  animation: page-in 0.5s ease-out both;
+}

@@ -1,12 +1,12 @@
 // ============================================
-// 画廊页 — 瀑布流 + 分类筛选 + Lightbox
+// 画廊页 — Grid + 分类筛选 + Lightbox
 // ============================================
 'use client'
 
 import { useEffect, useState, useCallback, useRef, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { getPhotos, getCategories } from '@/actions/photos'
-import { PhotoCard } from '@/components/gallery/PhotoCard'
+import { PhotoCard, PhotoCardSkeleton } from '@/components/gallery/PhotoCard'
 import { Lightbox } from '@/components/gallery/Lightbox'
 import type { Photo, Category } from '@/lib/types'
 
@@ -104,21 +104,16 @@ function GalleryContent() {
     }
 
     return (
-        <div className="mx-auto max-w-7xl px-6 py-8">
-            {/* ---- 标题已被移除 ---- */}
-
+        <div className="mx-auto max-w-7xl px-6 py-8 animate-page-in">
             {/* ---- 分类筛选 ---- */}
             {categories.length > 0 && (
                 <div className="flex flex-wrap gap-3 mb-12 justify-center">
-                    {/* ---- "全部" 按钮 ---- */}
                     <FilterButton
                         isActive={!activeCategory}
                         onClick={() => handleCategoryChange(null)}
                         label="全部"
                         gradientIndex={0}
                     />
-
-                    {/* ---- 分类按钮 ---- */}
                     {categories.map((cat, i) => (
                         <FilterButton
                             key={cat.id}
@@ -131,26 +126,39 @@ function GalleryContent() {
                 </div>
             )}
 
-            {/* ---- 瀑布流网格 ---- */}
-            <div className="masonry">
-                {photos.map((photo, i) => (
-                    <PhotoCard
-                        key={photo.id}
-                        photo={photo}
-                        priority={i < 4}
-                        onClick={() => setSelectedPhoto(photo)}
-                    />
-                ))}
-            </div>
+            {/* ---- 骨架屏 (首次加载) ---- */}
+            {photos.length === 0 && loading && (
+                <div className="masonry">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                        <PhotoCardSkeleton key={i} />
+                    ))}
+                </div>
+            )}
 
-            {/* ---- 加载更多 / 空状态 ---- */}
+            {/* ---- 图片网格 ---- */}
+            {photos.length > 0 && (
+                <div className="masonry">
+                    {photos.map((photo, i) => (
+                        <PhotoCard
+                            key={photo.id}
+                            photo={photo}
+                            index={i}
+                            priority={i < 4}
+                            onClick={() => setSelectedPhoto(photo)}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {/* ---- 空状态 ---- */}
             {photos.length === 0 && !loading && (
                 <div className="py-20 text-center text-[var(--color-text-muted)]">
                     暂无作品
                 </div>
             )}
 
-            {loading && (
+            {/* ---- 加载更多指示器 ---- */}
+            {loading && photos.length > 0 && (
                 <div className="py-12 text-center">
                     <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-[var(--color-accent)] border-t-transparent" />
                 </div>
@@ -171,9 +179,6 @@ function GalleryContent() {
 
 // ============================================
 // FilterButton — 独立组件，三态按钮
-// Active: 渐变背景 + 白色文字
-// Hover: 全息旋转光晕 + 渐变文字
-// Default: 磨砂玻璃 + 渐变文字
 // ============================================
 function FilterButton({
     isActive,
@@ -197,13 +202,13 @@ function FilterButton({
                 : 'hover:scale-105'
                 }`}
         >
-            {/* ---- Active: 渐变背景 ---- */}
+            {/* Active: 渐变背景 */}
             <div
                 className={`absolute inset-0 rounded-full transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}
                 style={{ backgroundImage: textGradient, backgroundSize: '200% auto' }}
             />
 
-            {/* ---- Hover: 全息旋转光晕 (仅非激活态) ---- */}
+            {/* Hover: 全息旋转光晕 */}
             {!isActive && (
                 <>
                     <div
@@ -217,12 +222,12 @@ function FilterButton({
                 </>
             )}
 
-            {/* ---- Default: 磨砂玻璃边框 (非激活 + 非悬浮) ---- */}
+            {/* Default: 磨砂玻璃 */}
             {!isActive && (
                 <div className="absolute inset-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 group-hover:border-transparent group-hover:bg-transparent" />
             )}
 
-            {/* ---- 文字: 渐变色 ---- */}
+            {/* 文字: 渐变色 */}
             <span
                 className={`relative z-10 text-shimmer bg-clip-text transition-all duration-300 ${isActive
                     ? 'text-white font-bold'
@@ -238,7 +243,15 @@ function FilterButton({
 
 export default function GalleryPage() {
     return (
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <Suspense fallback={
+            <div className="mx-auto max-w-7xl px-6 py-8">
+                <div className="masonry">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                        <PhotoCardSkeleton key={i} />
+                    ))}
+                </div>
+            </div>
+        }>
             <GalleryContent />
         </Suspense>
     )
