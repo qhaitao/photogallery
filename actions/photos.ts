@@ -206,7 +206,9 @@ export async function createUploadUrl(filename: string) {
     if (!user) throw new Error('未登录')
 
     const now = new Date()
-    const path = `${user.id}/${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${Date.now()}-${filename}`
+    const ext = filename.includes('.') ? filename.split('.').pop() : 'png'
+    const safeFilename = `${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`
+    const path = `${user.id}/${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${safeFilename}`
 
     const { data, error } = await supabase.storage
         .from(STORAGE_BUCKET)
