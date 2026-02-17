@@ -16,6 +16,8 @@ export default function RegisterPage() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
+    const [success, setSuccess] = useState(false)
+
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
         setError('')
@@ -36,6 +38,9 @@ export default function RegisterPage() {
         const { error: authError } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+                emailRedirectTo: `${window.location.origin}/auth/callback`,
+            },
         })
 
         if (authError) {
@@ -44,8 +49,30 @@ export default function RegisterPage() {
             return
         }
 
-        router.push('/gallery')
-        router.refresh()
+        setSuccess(true)
+        setLoading(false)
+    }
+
+    if (success) {
+        return (
+            <div className="flex min-h-[80vh] items-center justify-center px-6">
+                <div className="glass w-full max-w-md rounded-2xl p-8 text-center">
+                    <h1 className="font-[family-name:var(--font-display)] text-2xl mb-4">
+                        📧 验证邮件已发送
+                    </h1>
+                    <p className="text-[var(--color-text-muted)] mb-8">
+                        请前往 <strong>{email}</strong> 查收验证邮件。<br />
+                        点击邮件中的链接即可完成注册。
+                    </p>
+                    <Link
+                        href="/auth/login"
+                        className="inline-block rounded-lg bg-[var(--color-accent)] px-6 py-2.5 text-sm font-medium text-[var(--color-bg)] transition-opacity hover:opacity-90"
+                    >
+                        去登录
+                    </Link>
+                </div>
+            </div>
+        )
     }
 
     return (
