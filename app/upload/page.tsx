@@ -11,8 +11,11 @@ import { createUploadUrl, createPhoto, getCategories, createCategory } from '@/a
 import { MAX_FILE_SIZE, ALLOWED_TYPES } from '@/lib/constants'
 import type { Category } from '@/lib/types'
 
+import { useLanguage } from '@/lib/i18n'
+
 export default function UploadPage() {
     const router = useRouter()
+    const { t, language } = useLanguage()
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const [user, setUser] = useState<{ id: string } | null>(null)
@@ -50,11 +53,11 @@ export default function UploadPage() {
 
         for (const f of newFiles) {
             if (!ALLOWED_TYPES.includes(f.type)) {
-                setError('部分文件格式不支持 (仅 JPEG/PNG/WebP)')
+                setError(language === 'zh' ? '部分文件格式不支持 (仅 JPEG/PNG/WebP)' : 'Some file types are not supported (JPEG/PNG/WebP only)')
                 continue
             }
             if (f.size > MAX_FILE_SIZE) {
-                setError('部分文件超过 10MB 限制')
+                setError(language === 'zh' ? '部分文件超过 10MB 限制' : 'Some files exceed 10MB limit')
                 continue
             }
             validFiles.push(f)
@@ -127,7 +130,7 @@ export default function UploadPage() {
                     .from('gallery')
                     .uploadToSignedUrl(path, token, file)
 
-                if (uploadError) throw new Error(`上传 ${file.name} 失败: ${uploadError.message}`)
+                if (uploadError) throw new Error(language === 'zh' ? `上传 ${file.name} 失败: ${uploadError.message}` : `Failed to upload ${file.name}: ${uploadError.message}`)
                 setProgress(currentProgressBase + (50 / totalFiles))
 
                 // Step 3: 获取图片尺寸
@@ -151,7 +154,7 @@ export default function UploadPage() {
 
             router.push('/gallery')
         } catch (err) {
-            setError(err instanceof Error ? err.message : '上传失败')
+            setError(err instanceof Error ? err.message : (language === 'zh' ? '上传失败' : 'Upload failed'))
             setUploading(false)
         }
     }
@@ -184,7 +187,7 @@ export default function UploadPage() {
 
     return (
         <div className="mx-auto max-w-4xl px-6 py-8">
-            <h1 className="font-[family-name:var(--font-display)] text-3xl mb-8">上传作品</h1>
+            <h1 className="font-[family-name:var(--font-display)] text-3xl mb-8">{t('upload.page_title')}</h1>
 
             <form onSubmit={handleUpload} className="space-y-8">
                 {/* ---- 拖拽区域 ---- */}
@@ -201,10 +204,10 @@ export default function UploadPage() {
                 >
                     <div className="text-4xl text-[var(--color-text-muted)] mb-4">📷</div>
                     <p className="text-sm text-[var(--color-text-secondary)]">
-                        支持多图拖拽上传
+                        {t('upload.drag_title')}
                     </p>
                     <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-                        JPEG / PNG / WebP · 最大 10MB/张
+                        {t('upload.drag_subtitle')}
                     </p>
 
                     <input
@@ -244,38 +247,41 @@ export default function UploadPage() {
                     <div className="space-y-6">
                         {/* ---- 标题 ---- */}
                         <div>
-                            <label className="block text-xs text-[var(--color-text-muted)] mb-1.5">标题 (批量)</label>
+                            <label className="block text-xs text-[var(--color-text-muted)] mb-1.5">{t('upload.form_title')}</label>
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 required
                                 className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)]"
-                                placeholder="为这一组作品取个名字"
+                                placeholder={t('upload.form_title_placeholder')}
                             />
                             {files.length > 1 && (
                                 <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-                                    多张图片将自动添加序号，如：{title || '标题'} (1), {title || '标题'} (2)...
+                                    {language === 'zh'
+                                        ? `多张图片将自动添加序号，如：${title || '标题'} (1), ${title || '标题'} (2)...`
+                                        : `Numbers will be auto-appended, e.g. ${title || 'Title'} (1), ${title || 'Title'} (2)...`
+                                    }
                                 </p>
                             )}
                         </div>
 
                         {/* ---- 描述 ---- */}
                         <div>
-                            <label className="block text-xs text-[var(--color-text-muted)] mb-1.5">描述 (可选)</label>
+                            <label className="block text-xs text-[var(--color-text-muted)] mb-1.5">{t('upload.form_desc')}</label>
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 rows={4}
                                 className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)] resize-none"
-                                placeholder="讲述这些照片背后的故事..."
+                                placeholder={t('upload.form_desc_placeholder')}
                             />
                         </div>
                     </div>
 
                     {/* ---- 分类选择 ---- */}
                     <div>
-                        <label className="block text-xs text-[var(--color-text-muted)] mb-2">分类</label>
+                        <label className="block text-xs text-[var(--color-text-muted)] mb-2">{t('upload.form_category')}</label>
                         <div className="flex flex-wrap gap-2 items-center">
                             {categories.map((cat) => (
                                 <button
@@ -301,7 +307,7 @@ export default function UploadPage() {
                                         onChange={e => setNewCategoryName(e.target.value)}
                                         onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
                                         className="w-24 rounded-full border border-[var(--color-accent)] bg-[var(--color-bg)] px-3 py-1 text-xs outline-none"
-                                        placeholder="新分类..."
+                                        placeholder={t('upload.form_new_category')}
                                     />
                                     <button
                                         type="button"
@@ -328,7 +334,7 @@ export default function UploadPage() {
                                     onClick={() => setIsAddingCategory(true)}
                                     className="rounded-full border border-dashed border-[var(--color-border)] px-3 py-1 text-xs text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
                                 >
-                                    + 新建
+                                    {t('upload.form_add_category')}
                                 </button>
                             )}
                         </div>
@@ -353,7 +359,10 @@ export default function UploadPage() {
                     disabled={files.length === 0 || uploading}
                     className="w-full rounded-lg bg-[var(--color-accent)] py-3 text-sm font-medium text-[var(--color-bg)] transition-opacity hover:opacity-90 disabled:opacity-50"
                 >
-                    {uploading ? `正在上传 ${files.length} 张图片... ${Math.round(progress)}%` : `上传 ${files.length > 0 ? files.length + ' 张图片' : ''}`}
+                    {uploading
+                        ? (language === 'zh' ? `正在上传 ${files.length} 张图片... ${Math.round(progress)}%` : `Uploading ${files.length} photos... ${Math.round(progress)}%`)
+                        : (files.length > 0 ? (language === 'zh' ? `上传 ${files.length} 张图片` : `Upload ${files.length} Photos`) : t('upload.submit_default'))
+                    }
                 </button>
             </form>
         </div>

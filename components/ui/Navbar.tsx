@@ -8,17 +8,13 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
-
-const NAV_LINKS = [
-    { href: '/', label: '首页' },
-    { href: '/gallery', label: '画廊' },
-    { href: '/upload', label: '上传' },
-]
+import { useLanguage } from '@/lib/i18n'
 
 export function Navbar() {
     const pathname = usePathname()
     const [user, setUser] = useState<User | null>(null)
     const supabase = createClient()
+    const { t, language, setLanguage } = useLanguage()
 
     useEffect(() => {
         supabase.auth.getUser().then(({ data }) => setUser(data.user))
@@ -34,17 +30,27 @@ export function Navbar() {
         window.location.href = '/'
     }
 
+    const toggleLanguage = () => {
+        setLanguage(language === 'zh' ? 'en' : 'zh')
+    }
+
+    const navLinks = [
+        { href: '/', label: t('nav.home') },
+        { href: '/gallery', label: t('nav.gallery') },
+        { href: '/upload', label: t('nav.upload') },
+    ]
+
     return (
-        <nav className="glass fixed top-0 left-0 right-0 z-50 h-16">
+        <nav className="glass fixed top-0 left-0 right-0 z-50 h-16 transition-all duration-300">
             <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
                 {/* ---- Logo ---- */}
-                <Link href="/" className="font-[family-name:var(--font-display)] text-xl tracking-wide">
-                    时光画廊
+                <Link href="/" className="font-[family-name:var(--font-display)] text-xl tracking-wide bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+                    {language === 'zh' ? '时光画廊' : 'Time Gallery'}
                 </Link>
 
                 {/* ---- Nav Links ---- */}
                 <div className="flex items-center gap-8">
-                    {NAV_LINKS.map(({ href, label }) => {
+                    {navLinks.map(({ href, label }) => {
                         const isActive = pathname === href
                         return (
                             <Link
@@ -61,20 +67,29 @@ export function Navbar() {
                         )
                     })}
 
+                    {/* ---- Language Switcher ---- */}
+                    <button
+                        onClick={toggleLanguage}
+                        className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 transition-all active:scale-95 text-sm font-medium"
+                        title={language === 'zh' ? 'Switch to English' : '切换至中文'}
+                    >
+                        {language === 'zh' ? 'En' : '中'}
+                    </button>
+
                     {/* ---- Auth ---- */}
                     {user ? (
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 border-l border-[var(--color-border)] pl-6">
                             <Link
                                 href="/profile"
                                 className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors"
                             >
-                                我的
+                                {t('nav.profile')}
                             </Link>
                             <button
                                 onClick={handleLogout}
                                 className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"
                             >
-                                退出
+                                {t('nav.logout')}
                             </button>
                         </div>
                     ) : (
@@ -82,7 +97,7 @@ export function Navbar() {
                             href="/auth/login"
                             className="rounded-full bg-[var(--color-accent-dim)] px-4 py-1.5 text-sm text-[var(--color-accent)] transition-all hover:bg-[var(--color-accent)] hover:text-[var(--color-bg)]"
                         >
-                            登录
+                            {t('nav.login')}
                         </Link>
                     )}
                 </div>

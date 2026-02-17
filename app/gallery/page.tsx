@@ -34,10 +34,13 @@ const HOVER_CONICS = [
     'conic-gradient(from 0deg at 50% 50%, #e879f9, #67e8f9, #fbbf24, #e879f9)',
 ]
 
+import { useLanguage } from '@/lib/i18n'
+
 function GalleryContent() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const categoryParam = searchParams.get('category')
+    const { t } = useLanguage()
 
     const [photos, setPhotos] = useState<Photo[]>([])
     const [categories, setCategories] = useState<Category[]>([])
@@ -48,6 +51,8 @@ function GalleryContent() {
     const [hasMore, setHasMore] = useState(true)
     const [loading, setLoading] = useState(true)
     const loaderRef = useRef<HTMLDivElement>(null)
+
+    // ... (keep existing loadPhotos and useEffects)
 
     // ---- 加载图片 ----
     const loadPhotos = useCallback(async (cursor?: string, reset = false) => {
@@ -111,7 +116,7 @@ function GalleryContent() {
                     <FilterButton
                         isActive={!activeCategory}
                         onClick={() => handleCategoryChange(null)}
-                        label="全部"
+                        label={t('gallery.filter_all')}
                         gradientIndex={0}
                     />
                     {categories.map((cat, i) => (
@@ -153,7 +158,7 @@ function GalleryContent() {
             {/* ---- 空状态 ---- */}
             {photos.length === 0 && !loading && (
                 <div className="py-20 text-center text-[var(--color-text-muted)]">
-                    暂无作品
+                    {t('gallery.no_results')}
                 </div>
             )}
 
