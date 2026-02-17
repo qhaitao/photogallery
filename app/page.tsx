@@ -30,11 +30,11 @@ export default async function HomePage() {
           <span className="bg-gradient-to-b from-white via-blue-50 to-white/60 bg-clip-text text-transparent">
             时光
           </span>
-          <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-amber-300 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-indigo-400 via-purple-400 via-pink-400 to-amber-300 bg-clip-text text-transparent">
             画廊
           </span>
         </h1>
-        <p className="mt-6 font-[family-name:var(--font-display)] text-2xl md:text-3xl italic text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/40 relative z-10 animate-fade-in delay-100">
+        <p className="mt-6 font-[family-name:var(--font-display)] text-2xl md:text-3xl italic text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 relative z-10 animate-fade-in delay-100">
           A Thousand Faces, A Million Dreams
         </p>
         <p className="mt-8 max-w-lg text-[var(--color-text-secondary)] text-sm md:text-base tracking-wide uppercase relative z-10 animate-fade-in delay-200">
