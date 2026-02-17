@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useLanguage } from '@/lib/i18n'
 
-export function HomeHero() {
+export function HomeHero({ visitCount }: { visitCount?: number }) {
     const { t, language } = useLanguage()
 
     return (
@@ -66,6 +66,21 @@ export function HomeHero() {
             <p className="absolute bottom-8 text-xs text-[var(--color-text-muted)] z-10 opacity-50">
                 {t('hero.footer')}
             </p>
+
+            {/* ---- 访问量统计 (New) ---- */}
+            {visitCount !== undefined && (
+                <div className="absolute bottom-20 z-10 animate-fade-in delay-500">
+                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm shadow-sm transition-all hover:bg-white/10">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <span className="text-xs font-medium text-[var(--color-text-secondary)] tracking-wider">
+                            {visitCount.toLocaleString()} {t('hero.visits') || 'Visits'}
+                        </span>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }

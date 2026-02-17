@@ -3,6 +3,9 @@
 // ============================================
 import { HomeHero } from '@/components/home/HomeHero'
 
-export default function HomePage() {
-  return <HomeHero />
+import { getVisitCount } from '@/actions/analytics'
+
+export default async function HomePage() {
+  const visitCount = await getVisitCount()
+  return <HomeHero visitCount={visitCount} />
 }
